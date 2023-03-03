@@ -5,6 +5,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.NoOpPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -13,12 +15,12 @@ public class UserService implements UserDetailsService {
 
     private final static String USER_NOT_FOUND = "User with email %s not found";
     private final UserRepository repository;
-    private final BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final PasswordEncoder encoder;
 
 
     @Override
-    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        return repository.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException(String.format(USER_NOT_FOUND, email)));
+    public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
+        return repository.findByEmail(s).orElseThrow(() -> new UsernameNotFoundException(String.format(USER_NOT_FOUND, s)));
     }
 
     public String signUpUser(User user){
@@ -28,9 +30,7 @@ public class UserService implements UserDetailsService {
             throw new IllegalStateException("email already taken");
         }
 
-        String encodedPassword = bCryptPasswordEncoder.encode(user.getPassword());
-        user.setPassword(encodedPassword);
-
+        user.setPassword(encoder.encode(user.getPassword()));
         repository.save(user);
 
         return "no działa";

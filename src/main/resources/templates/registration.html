@@ -2,26 +2,49 @@
 <html xmlns:th="https://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Rejestracja</title>
+    <title>Registration</title>
 
-    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+
+    <style type="text/css">
+        body {
+            padding-top: 100px;
+            background-color: #277f97;
+        }
+        .form-signup {
+            margin: 0 auto;
+            max-width: 400px;
+            background-color: white;
+            padding: 15px;
+        }
+
+
+    </style>
 </head>
 <body>
-<div align="center">
-    <h1> Sign up</h1>
-    <form th:action="@{/registration/register}" th:object="${registrationRequest}" method="post">
-        <table border="1" cellpadding="10">
-            <tr>
-                <td> First name:</td>
-                <td><input type="text" th:field="*{firstName}"></td>
-            </tr>
-            <tr>
-                <td colspan="2">
-                    <input type="submit" value="Register"></input>
-
-                </td>
-            </tr>
-        </table>
+<div align="center" class="container">
+    <form class="form-signup" th:action="@{/registration/register}" th:object="${registrationRequest}"
+          method="post">
+        <h1> Sign up</h1>
+        <div class="mb-3">
+            <input class="form-control" type="text" name="firstname" placeholder="First Name"
+                   th:field="*{firstName}">
+        </div>
+        <div class="mb-3">
+            <input class="form-control" type="text" name="lastName" placeholder="Last Name" th:field="*{lastName}">
+        </div>
+        <div class="mb-3">
+            <input class="form-control" type="text" name="email" placeholder="Email" th:field="*{email}">
+        </div>
+        <div class="mb-3">
+            <input class="form-control" type="text" name="password" placeholder="Password" th:field="*{password}">
+        </div>
+        <div class="mb-3">
+            <input class="form-control" type="text" name="repeatPassword" placeholder="Confirm password"
+                   th:field="*{repeatPassword}">
+        </div>
+        <input type="submit" class="btn btn-success btn-block" name="submit" value="Submit">
     </form>
 </div>
 </body>

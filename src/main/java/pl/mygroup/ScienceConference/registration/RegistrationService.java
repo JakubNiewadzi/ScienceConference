@@ -18,7 +18,7 @@ public class RegistrationService {
                 request.getFirstName(),
                 request.getEmail(),
                 request.getPassword(),
-                UserRole.SCIENTIST
+                UserRole.GUEST
         ));
     }
 }

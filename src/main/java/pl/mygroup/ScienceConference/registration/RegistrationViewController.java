@@ -22,9 +22,13 @@ public class RegistrationViewController {
     }
 
     @PostMapping("/register")
-    public String registerUser(@ModelAttribute RegistrationRequest request){
+    public String registerUser(@ModelAttribute RegistrationRequest request) {
         System.out.println("request" + request.getFirstName());
-        registrationService.register(request);
+        if(request.getPassword().equals(request.getRepeatPassword())) {
+            registrationService.register(request);
+        }else{
+            throw new IllegalArgumentException("Passwords do not match");
+        }
         return "registration";
     }
 
