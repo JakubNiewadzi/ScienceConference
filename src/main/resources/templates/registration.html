@@ -13,6 +13,7 @@
             background-color: #277f97;
         }
         .form-signup {
+            border-radius: 10px;
             margin: 0 auto;
             max-width: 400px;
             background-color: white;
@@ -38,10 +39,10 @@
             <input class="form-control" type="text" name="email" placeholder="Email" th:field="*{email}">
         </div>
         <div class="mb-3">
-            <input class="form-control" type="text" name="password" placeholder="Password" th:field="*{password}">
+            <input class="form-control" type="password" name="password" placeholder="Password" th:field="*{password}">
         </div>
         <div class="mb-3">
-            <input class="form-control" type="text" name="repeatPassword" placeholder="Confirm password"
+            <input class="form-control" type="password" name="repeatPassword" placeholder="Confirm password"
                    th:field="*{repeatPassword}">
         </div>
         <input type="submit" class="btn btn-success btn-block" name="submit" value="Submit">

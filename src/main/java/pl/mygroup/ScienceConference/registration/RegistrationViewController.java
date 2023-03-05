@@ -29,7 +29,7 @@ public class RegistrationViewController {
         }else{
             throw new IllegalArgumentException("Passwords do not match");
         }
-        return "registration";
+        return "redirect:/";
     }
 
 }
