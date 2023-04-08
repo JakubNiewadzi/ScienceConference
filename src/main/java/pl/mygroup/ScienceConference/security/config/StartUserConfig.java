@@ -21,7 +21,15 @@ public class StartUserConfig {
 
         Conference conference = new Conference();
         conference.setName("Konferencja Naukowa Politechniki Warszawskiej");
+        conference.setDescription("To jest pierwsza w historii konferencja naukowa organizowana przez Politechnikę Warszawską");
         conferenceRepository.save(conference);
+        for(int i =0; i<5;i++){
+            Conference con = new Conference();
+            con.setName("Konferencja nr " + i+1);
+            con.setDescription("Opis nr " + i+1);
+            conferenceRepository.save(con);
+        }
+
     }
 
 }

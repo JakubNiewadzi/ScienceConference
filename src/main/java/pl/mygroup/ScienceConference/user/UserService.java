@@ -9,6 +9,9 @@ import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 @AllArgsConstructor
 public class UserService implements UserDetailsService {
@@ -16,11 +19,16 @@ public class UserService implements UserDetailsService {
     private final static String USER_NOT_FOUND = "User with email %s not found";
     private final UserRepository repository;
     private final PasswordEncoder encoder;
-
+    private final UserMapper userMapper;
 
     @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
         return repository.findByEmail(s).orElseThrow(() -> new UsernameNotFoundException(String.format(USER_NOT_FOUND, s)));
+    }
+
+    public List<UserDTO> getAllUsers(){
+        return repository.findAll().stream()
+                .map(userMapper).collect(Collectors.toList());
     }
 
     public String signUpUser(User user){

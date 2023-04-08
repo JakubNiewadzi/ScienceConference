@@ -25,7 +25,9 @@ public class ConferenceViewController {
 
     @GetMapping("/{id}")
     public String getConference(@PathVariable("id") Long id, Model model){
-        return "placeholder";
+        ConferenceDTO conference = conferenceService.getConferenceDTO(id);
+        model.addAttribute("conference", conference);
+        return "conferenceDetails";
     }
 
 }

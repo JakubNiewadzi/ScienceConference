@@ -1,17 +1,28 @@
 package pl.mygroup.ScienceConference.user;
 
+import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-@Controller
-@RequestMapping("/user")
+import java.util.List;
+import java.util.stream.Collectors;
+
+@RestController
+@RequestMapping("/api/user")
+@AllArgsConstructor
 public class UserController {
 
+    private final UserService userService;
+
+
     @GetMapping
-    public ResponseEntity<String> sayHello(){
-        return ResponseEntity.ok("Hellow uWu");
+    public List<UserDTO> getUsers(){
+        return userService.getAllUsers();
+
     }
 
 }
