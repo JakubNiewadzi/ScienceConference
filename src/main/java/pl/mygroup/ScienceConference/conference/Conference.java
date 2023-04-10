@@ -3,7 +3,7 @@ package pl.mygroup.ScienceConference.conference;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import pl.mygroup.ScienceConference.user.User;
+import pl.mygroup.ScienceConference.user.UserDTO;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -30,5 +30,5 @@ public class Conference {
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name="organizer_id")
-    private User organizer;
+    private UserDTO organizer;
 }

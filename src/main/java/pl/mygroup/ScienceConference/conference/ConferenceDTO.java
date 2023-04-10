@@ -1,6 +1,7 @@
 package pl.mygroup.ScienceConference.conference;
 
-import pl.mygroup.ScienceConference.user.User;
+
+import pl.mygroup.ScienceConference.user.UserDTO;
 
 import java.time.LocalDateTime;
 
@@ -9,6 +10,6 @@ public record ConferenceDTO(
         String description,
         LocalDateTime startDate,
         LocalDateTime endDate,
-        User organizer
+        UserDTO organizer
 ) {
 }

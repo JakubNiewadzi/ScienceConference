@@ -3,6 +3,7 @@ package pl.mygroup.ScienceConference.conference;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import pl.mygroup.ScienceConference.user.User;
 
 import java.util.List;
 
@@ -14,26 +15,36 @@ public class ConferenceController {
     private final ConferenceService conferenceService;
 
     @PostMapping
-    public String createConference(@RequestBody Conference conference){
-        conferenceService.createConference(conference);
-        return "done";
+    public ResponseEntity<String> createConference(@RequestBody ConferenceDTO conference){
+        return conferenceService.createConference(conference);
     }
 
     @GetMapping
-    public List<ConferenceDTO> getConferecens(){
-        return conferenceService.getConferencesDTO();
+    public ResponseEntity<List<ConferenceDTO>> getConferences(){
+        List<ConferenceDTO> conferences = conferenceService.getConferencesDTO();
+
+        return ResponseEntity.ok(conferences);
     }
 
     @GetMapping("/{id}")
-    public ConferenceDTO getConference(@PathVariable Long id){
-        return conferenceService.getConferenceDTO(id);
+    public ResponseEntity<ConferenceDTO> getConference(@PathVariable Long id){
+        ConferenceDTO conference = conferenceService.getConferenceDTO(id);
+
+        if(conference!=null){
+            return ResponseEntity.ok(conference);
+        }else{
+            return ResponseEntity.notFound().build();
+        }
     }
 
 
     @PutMapping("/{id}")
-    public String updateConference(@PathVariable Long id, @RequestBody Conference conference){
-
-        return "donezo";
+    public ConferenceDTO updateConference(@PathVariable Long id, @RequestBody ConferenceDTO conferenceDTO){
+        return conferenceService.updateConference(id, conferenceDTO);
     }
 
+    @DeleteMapping("/{id}")
+    public void removeConference(@PathVariable Long id){
+        conferenceService.removeConference(id);
+    }
 }

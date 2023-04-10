@@ -31,6 +31,16 @@ public class UserService implements UserDetailsService {
                 .map(userMapper).collect(Collectors.toList());
     }
 
+    public UserDTO getUser(Long id){
+        return repository.findById(id)
+                .map(userMapper).orElse(null);
+    }
+
+    public UserDTO getUser(String email){
+        return repository.findByEmail(email)
+                .map(userMapper).get();
+    }
+
     public String signUpUser(User user){
         boolean userExists = repository.findByEmail(user.getEmail()).isPresent();
 
