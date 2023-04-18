@@ -7,7 +7,6 @@ import java.util.function.Function;
 @Service
 public class ConferenceMapper implements Function<Conference, ConferenceDTO> {
 
-
     @Override
     public ConferenceDTO apply(Conference conference) {
         return new ConferenceDTO(
@@ -15,7 +14,7 @@ public class ConferenceMapper implements Function<Conference, ConferenceDTO> {
                 conference.getDescription(),
                 conference.getStartDate(),
                 conference.getEndDate(),
-                conference.getOrganizer()
+                conference.getOrganizer().getEmail()
         );
     }
 }

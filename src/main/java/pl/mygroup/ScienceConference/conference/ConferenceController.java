@@ -5,7 +5,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pl.mygroup.ScienceConference.user.User;
 
+import javax.swing.text.html.Option;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/conference")
@@ -15,36 +17,34 @@ public class ConferenceController {
     private final ConferenceService conferenceService;
 
     @PostMapping
-    public ResponseEntity<String> createConference(@RequestBody ConferenceDTO conference){
+    public ResponseEntity<String> createConference(@RequestBody ConferenceDTO conference) {
         return conferenceService.createConference(conference);
     }
 
     @GetMapping
-    public ResponseEntity<List<ConferenceDTO>> getConferences(){
+    public ResponseEntity<List<ConferenceDTO>> getConferences() {
         List<ConferenceDTO> conferences = conferenceService.getConferencesDTO();
-
-        return ResponseEntity.ok(conferences);
+        if (!conferences.isEmpty()) {
+            return ResponseEntity.ok(conferences);
+        }
+        return ResponseEntity.notFound().build();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ConferenceDTO> getConference(@PathVariable Long id){
-        ConferenceDTO conference = conferenceService.getConferenceDTO(id);
+    public ResponseEntity<ConferenceDTO> getConference(@PathVariable Long id) {
+        Optional<ConferenceDTO> conference = conferenceService.getConferenceDTO(id);
 
-        if(conference!=null){
-            return ResponseEntity.ok(conference);
-        }else{
-            return ResponseEntity.notFound().build();
-        }
+        return conference.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
 
     @PutMapping("/{id}")
-    public ConferenceDTO updateConference(@PathVariable Long id, @RequestBody ConferenceDTO conferenceDTO){
+    public ResponseEntity<String> updateConference(@PathVariable Long id, @RequestBody ConferenceDTO conferenceDTO) {
         return conferenceService.updateConference(id, conferenceDTO);
     }
 
     @DeleteMapping("/{id}")
-    public void removeConference(@PathVariable Long id){
-        conferenceService.removeConference(id);
+    public ResponseEntity<String> removeConference(@PathVariable Long id) {
+        return conferenceService.removeConference(id);
     }
 }
