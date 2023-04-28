@@ -1,13 +1,26 @@
 package pl.mygroup.ScienceConference.panel;
 
-import pl.mygroup.ScienceConference.conference.ConferenceDTO;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
-public record PanelDTO(
-        String description,
-        LocalDateTime startDate,
-        LocalDateTime endDate,
-        ConferenceDTO conference
-) {
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class PanelDTO{
+        String description;
+        @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+        LocalDateTime startDate;
+        @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+        LocalDateTime endDate;
+        @JsonProperty
+        String conferenceName;
+        @JsonProperty
+        String conferenceEndPoint;
+
 }

@@ -29,6 +29,6 @@ public class Conference {
     private LocalDateTime endDate;
 
     @JoinColumn(name="organizer_id")
-    @OneToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private User organizer;
 }

@@ -3,9 +3,9 @@ package pl.mygroup.ScienceConference.conference;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import pl.mygroup.ScienceConference.user.User;
+import pl.mygroup.ScienceConference.panel.PanelDTO;
+import pl.mygroup.ScienceConference.panel.PanelService;
 
-import javax.swing.text.html.Option;
 import java.util.List;
 import java.util.Optional;
 
@@ -15,6 +15,7 @@ import java.util.Optional;
 public class ConferenceController {
 
     private final ConferenceService conferenceService;
+    private final PanelService panelService;
 
     @PostMapping
     public ResponseEntity<String> createConference(@RequestBody ConferenceDTO conference) {
@@ -37,6 +38,14 @@ public class ConferenceController {
         return conference.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
+    @GetMapping("/{conferenceId}/panels")
+    public ResponseEntity<List<PanelDTO>> getPanelsByConference(@PathVariable Long conferenceId){
+        List<PanelDTO> panels = panelService.getPanelsByConference(conferenceId);
+        if(panels.isEmpty()){
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(panels);
+    }
 
     @PutMapping("/{id}")
     public ResponseEntity<String> updateConference(@PathVariable Long id, @RequestBody ConferenceDTO conferenceDTO) {
@@ -46,5 +55,13 @@ public class ConferenceController {
     @DeleteMapping("/{id}")
     public ResponseEntity<String> removeConference(@PathVariable Long id) {
         return conferenceService.removeConference(id);
+    }
+
+    @PostMapping("/{conferenceId}/panels")
+    public ResponseEntity<PanelDTO> createPanel(@PathVariable Long conferenceId,
+                                                @RequestBody PanelDTO panelDTO){
+        System.out.println(panelDTO);
+        return panelService.createPanel(conferenceId, panelDTO);
+
     }
 }

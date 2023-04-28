@@ -26,6 +26,10 @@ public class ConferenceService {
         return repository.findAll();
     }
 
+    public Optional<Conference> getConference(Long conferenceId) {
+        return repository.findById(conferenceId);
+    }
+
     public List<ConferenceDTO> getConferencesDTO() {
         return repository.findAll().stream()
                 .map(conferenceMapper)
@@ -40,7 +44,7 @@ public class ConferenceService {
     @Transactional
     public ResponseEntity<String> updateConference(Long id, ConferenceDTO conferenceDTO) {
 
-        if(repository.findById(id).isEmpty()){
+        if (repository.findById(id).isEmpty()) {
             return ResponseEntity.badRequest().build();
         }
 

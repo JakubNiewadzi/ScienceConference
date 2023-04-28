@@ -12,12 +12,20 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class Panel {
 
+    @SequenceGenerator(name = "panel_sequence",
+                        sequenceName = "panel_sequence",
+                        allocationSize = 1)
     @Id
+    @GeneratedValue(
+            strategy = GenerationType.SEQUENCE,
+            generator = "panel_sequence"
+    )
     private Long id;
     private String description;
     private LocalDateTime startDate;
     private LocalDateTime endDate;
-    @OneToOne(cascade = CascadeType.ALL)
+
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "conference_id")
     private Conference conference;
 
