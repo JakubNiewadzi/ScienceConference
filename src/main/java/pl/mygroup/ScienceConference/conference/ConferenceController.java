@@ -58,7 +58,7 @@ public class ConferenceController {
     }
 
     @PostMapping("/{conferenceId}/panels")
-    public ResponseEntity<PanelDTO> createPanel(@PathVariable Long conferenceId,
+    public ResponseEntity<String> createPanel(@PathVariable Long conferenceId,
                                                 @RequestBody PanelDTO panelDTO){
         System.out.println(panelDTO);
         return panelService.createPanel(conferenceId, panelDTO);

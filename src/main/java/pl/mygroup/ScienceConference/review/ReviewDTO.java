@@ -1,26 +1,22 @@
-package pl.mygroup.ScienceConference.article;
+package pl.mygroup.ScienceConference.review;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
-
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ArticleDTO {
-
+public class ReviewDTO {
     @JsonProperty
     private Long id;
-    private String name;
-    private String reference;
+    private String reviewContent;
+    private double rating;
     @JsonProperty
-    private double averageRating;
+    private String articleName;
     @JsonProperty
-    private String creatorName;
+    private String articleEndpoint;
     @JsonProperty
-    private List<Long> panelIds;
-
+    private String reviewerEmail;
 }

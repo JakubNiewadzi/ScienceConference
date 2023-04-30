@@ -38,4 +38,10 @@ public class PanelController {
         return panelService.removePanel(id);
     }
 
+    @PatchMapping("/{panelId}/{articleId}")
+    public ResponseEntity<PanelDTO> addArticleToPanel(@PathVariable Long panelId,
+                                                      @PathVariable Long articleId){
+        return panelService.addArticleToPanel(panelId, articleId);
+    }
+
 }

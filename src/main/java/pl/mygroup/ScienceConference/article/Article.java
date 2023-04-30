@@ -2,9 +2,12 @@ package pl.mygroup.ScienceConference.article;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import pl.mygroup.ScienceConference.panel.Panel;
 import pl.mygroup.ScienceConference.user.User;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Data
@@ -26,4 +29,11 @@ public class Article {
     @JoinColumn(name="creator_id")
     @ManyToOne(fetch = FetchType.LAZY)
     private User creator;
+    @ManyToMany
+    @JoinTable(
+            name = "article_panel",
+            joinColumns = @JoinColumn(name = "article_id"),
+            inverseJoinColumns = @JoinColumn(name = "panel_id")
+    )
+    private List<Panel> panels = new ArrayList<>();
 }

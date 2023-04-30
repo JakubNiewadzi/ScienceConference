@@ -2,10 +2,13 @@ package pl.mygroup.ScienceConference.panel;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import pl.mygroup.ScienceConference.article.Article;
 import pl.mygroup.ScienceConference.conference.Conference;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Data
@@ -29,4 +32,6 @@ public class Panel {
     @JoinColumn(name = "conference_id")
     private Conference conference;
 
+    @ManyToMany(mappedBy = "panels")
+    private List<Article> articles = new ArrayList<>();
 }
