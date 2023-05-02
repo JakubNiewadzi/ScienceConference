@@ -29,7 +29,7 @@ public class Article {
     @JoinColumn(name="creator_id")
     @ManyToOne(fetch = FetchType.LAZY)
     private User creator;
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
             name = "article_panel",
             joinColumns = @JoinColumn(name = "article_id"),

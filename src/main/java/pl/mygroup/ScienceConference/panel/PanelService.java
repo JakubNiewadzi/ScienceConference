@@ -18,9 +18,9 @@ import java.util.Optional;
 public class PanelService {
 
     private final PanelRepository panelRepository;
-    private PanelMapper panelMapper;
-    private ConferenceService conferenceService;
-    private ArticleRepository articleRepository;
+    private final PanelMapper panelMapper;
+    private final ConferenceService conferenceService;
+    private final ArticleRepository articleRepository;
 
     public List<PanelDTO> getPanels(){
         return panelRepository.findAll()
@@ -67,14 +67,22 @@ public class PanelService {
         return ResponseEntity.ok("Panel has been successfully created");
     }
 
+    @Transactional
     public ResponseEntity<PanelDTO> removePanel(Long id){
-        Optional<PanelDTO> removed = panelRepository.
-                findById(id).map(panelMapper);
-        if(removed.isEmpty()){
+        Optional<Panel> removedPanelOptional = panelRepository.
+                findById(id);
+        if(removedPanelOptional.isEmpty()){
             return ResponseEntity.notFound().build();
         }
+        removedPanelOptional.get().getArticles().clear();
+        articleRepository.findAll().forEach(
+                x->x.getPanels().remove(removedPanelOptional.get())
+        );
         panelRepository.deleteById(id);
-        return ResponseEntity.ok(removed.get());
+        PanelDTO removedPanel= removedPanelOptional
+                .map(panelMapper)
+                .get();
+        return ResponseEntity.ok(removedPanel);
     }
 
     @Transactional

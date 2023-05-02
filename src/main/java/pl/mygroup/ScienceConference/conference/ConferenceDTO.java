@@ -14,6 +14,7 @@ public record ConferenceDTO(
         LocalDateTime startDate,
         @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
         LocalDateTime endDate,
+        @JsonProperty
         String organizerEmail
 ) {
 }

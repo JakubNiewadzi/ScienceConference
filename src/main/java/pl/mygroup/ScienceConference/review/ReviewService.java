@@ -17,10 +17,10 @@ import java.util.Optional;
 @AllArgsConstructor
 public class ReviewService {
 
-    private ReviewRepository reviewRepository;
-    private ReviewMapper reviewMapper;
-    private UserRepository userRepository;
-    private ArticleRepository articleRepository;
+    private final ReviewRepository reviewRepository;
+    private final ReviewMapper reviewMapper;
+    private final UserRepository userRepository;
+    private final ArticleRepository articleRepository;
 
     public List<ReviewDTO> getReviews(){
         return reviewRepository.findAll()
@@ -59,5 +59,17 @@ public class ReviewService {
         review.setReviewer(currentUser);
         reviewRepository.save(review);
         return ResponseEntity.ok().body("Review successfully created");
+    }
+
+    public ResponseEntity<ReviewDTO> removeReview(Long id){
+        Optional<ReviewDTO> removedReviewOptional = reviewRepository
+                .findById(id).map(reviewMapper);
+
+        if(removedReviewOptional.isEmpty()){
+            return ResponseEntity.notFound().build();
+        }
+        ReviewDTO removedReview = removedReviewOptional.get();
+        reviewRepository.deleteById(id);
+        return ResponseEntity.ok(removedReview);
     }
 }

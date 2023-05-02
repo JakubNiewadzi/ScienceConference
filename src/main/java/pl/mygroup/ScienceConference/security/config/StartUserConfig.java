@@ -54,7 +54,7 @@ public class StartUserConfig {
         article.setCreator(admin);
         article.setReference("localhost:8080");
         articleRepository.save(article);
-        Review review = new Review();
+        /*Review review = new Review();
         review.setReviewer(admin);
         review.setReviewContent("dobre");
         review.setArticle(article);
@@ -65,6 +65,6 @@ public class StartUserConfig {
         review.setReviewContent("słabe");
         review.setArticle(article);
         review.setRating(1.3);
-        reviewRepository.save(review);
+        reviewRepository.save(review);*/
     }
 }

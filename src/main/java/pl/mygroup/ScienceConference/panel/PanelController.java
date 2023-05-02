@@ -12,7 +12,7 @@ import java.util.Optional;
 @AllArgsConstructor
 public class PanelController {
 
-    private PanelService panelService;
+    private final PanelService panelService;
 
 
     @GetMapping

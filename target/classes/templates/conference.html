@@ -57,26 +57,21 @@
     </div>
 </nav>
 
-<div class="container-fluid mt-5" style="height: 80%; flex-shrink: 0; flex-grow: 0;">
-    <div class="row mt-5">
-        <div class="col-md">
-            <div class="card-container-container" style="overflow-x : scroll;">
-                <div class="card-container d-flex flex-nowrap overflow-auto">
-                    <div class="card mx-2 mb-3" style="width: 20rem; flex-shrink: 0; flex-grow: 0; height: 100%;"
-                         th:each="con : ${conferences}">
-                        <div class="card-body">
-                            <h5 class="card-title" th:text="${con.getName()}"></h5>
-                            <p class="card-text" th:text="${con.getDescription()}"></p>
-                            <a th:href="@{/conference/{id}(id=${con.getId()})}" class="btn btn-success btn-block"
-                               name="button" role="button" aria-pressed="true">Zobacz</a>
-                        </div>
-                    </div>
+
+<div class="container-fluid mb-2">
+    <div class="row justify-content-center">
+        <div class="col-lg-8 col-md-10">
+            <div class="card border-secondary rounded" style="margin-top: 80px;" th:each="con:${conferences}">
+                <div class="card-body text-center bg-color">
+                    <h5 class="card-title" th:text="${con.getName()}"></h5>
+                    <p class="card-text" th:text="${con.getDescription()}"></p>
+                    <p class="card-text" th:text="${con.getStartDate() + ' - ' + con.getEndDate()}"></p>
+                    <a th:href="@{/conference/{id}(id=${con.getId()})}" class="btn btn-secondary">Zobacz więcej</a>
                 </div>
             </div>
         </div>
     </div>
 </div>
-
 
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
         integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"

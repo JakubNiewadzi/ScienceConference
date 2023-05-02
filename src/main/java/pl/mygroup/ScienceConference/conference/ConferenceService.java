@@ -94,8 +94,7 @@ public class ConferenceService {
         if (conferenceDTO.name() == null ||
                 conferenceDTO.description() == null ||
                 conferenceDTO.startDate() == null ||
-                conferenceDTO.endDate() == null ||
-                conferenceDTO.organizerEmail() == null) {
+                conferenceDTO.endDate() == null) {
             return ResponseEntity.badRequest().body("None of conference values can be null");
         }
         if (conferenceDTO.endDate().isBefore(conferenceDTO.startDate())) {
@@ -107,12 +106,16 @@ public class ConferenceService {
                 conferenceDTO.startDate().isBefore(LocalDateTime.now())) {
             return ResponseEntity.badRequest().body("Cannot add a conference that has already started or ended");
         }
-
-        if (userService.getUserDTO(conferenceDTO.organizerEmail()) == null) {
-            return ResponseEntity.badRequest().body("Cannot find organizer in users database");
+        User organizer;
+        if (conferenceDTO.organizerEmail() == null) {
+            organizer = userService.getUser("admin");
+        }else{
+            organizer = userService.getUser(conferenceDTO.organizerEmail());
         }
+        //return ResponseEntity.badRequest().body("Cannot find organizer in users database");
 
-        User organizer = userService.getUser(conferenceDTO.organizerEmail());
+
+
 
         Conference conference = new Conference();
         conference.setName(conferenceDTO.name());

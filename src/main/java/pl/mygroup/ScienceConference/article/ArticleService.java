@@ -5,11 +5,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import pl.mygroup.ScienceConference.panel.Panel;
+import pl.mygroup.ScienceConference.panel.PanelRepository;
 import pl.mygroup.ScienceConference.review.Review;
 import pl.mygroup.ScienceConference.review.ReviewRepository;
 import pl.mygroup.ScienceConference.user.User;
 import pl.mygroup.ScienceConference.user.UserRepository;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 
@@ -17,10 +20,11 @@ import java.util.Optional;
 @AllArgsConstructor
 public class ArticleService {
 
-    private ArticleRepository articleRepository;
-    private ArticleMapper articleMapper;
-    private ReviewRepository reviewRepository;
-    private UserRepository userRepository;
+    private final ArticleRepository articleRepository;
+    private final ArticleMapper articleMapper;
+    private final ReviewRepository reviewRepository;
+    private final UserRepository userRepository;
+    private final PanelRepository panelRepository;
 
 
     public List<ArticleDTO> getArticles() {
@@ -82,13 +86,16 @@ public class ArticleService {
         return ResponseEntity.ok("Article has been successfully created");
     }
 
+    @Transactional
     public ResponseEntity<ArticleDTO> removeArticle(Long id){
-        Optional<ArticleDTO> removedArticle = articleRepository.findById(id)
-                .map(articleMapper);
-        if(removedArticle.isEmpty()){
+        Optional<Article> removedArticleOptional = articleRepository.findById(id);
+        if(removedArticleOptional.isEmpty()){
             return ResponseEntity.notFound().build();
         }
+        removedArticleOptional.get().getPanels().clear();
         articleRepository.deleteById(id);
-        return ResponseEntity.ok(removedArticle.get());
+        ArticleDTO removedArticle = removedArticleOptional
+                .map(articleMapper).get();
+        return ResponseEntity.ok(removedArticle);
     }
 }

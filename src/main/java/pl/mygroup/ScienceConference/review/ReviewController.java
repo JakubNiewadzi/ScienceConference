@@ -12,7 +12,7 @@ import java.util.Optional;
 @RequestMapping("/api/review")
 public class ReviewController {
 
-    private ReviewService reviewService;
+    private final ReviewService reviewService;
 
     @GetMapping
     public ResponseEntity<List<ReviewDTO>> getReviews(){
@@ -32,5 +32,9 @@ public class ReviewController {
         return ResponseEntity.ok(reviewOptional.get());
     }
 
+    @DeleteMapping("/{id}")
+    public ResponseEntity<ReviewDTO> removeReview(@PathVariable Long id) {
+        return reviewService.removeReview(id);
+    }
 
 }

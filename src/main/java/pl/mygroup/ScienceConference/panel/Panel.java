@@ -32,6 +32,7 @@ public class Panel {
     @JoinColumn(name = "conference_id")
     private Conference conference;
 
-    @ManyToMany(mappedBy = "panels")
+    @ManyToMany(mappedBy = "panels",
+            cascade = CascadeType.ALL)
     private List<Article> articles = new ArrayList<>();
 }

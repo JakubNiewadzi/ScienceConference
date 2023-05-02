@@ -13,8 +13,8 @@ import java.util.List;
 @AllArgsConstructor
 public class ArticleController {
 
-    private ArticleService articleService;
-    private ReviewService reviewService;
+    private final ArticleService articleService;
+    private final ReviewService reviewService;
 
     @GetMapping
     public ResponseEntity<List<ArticleDTO>> getArticles(){
