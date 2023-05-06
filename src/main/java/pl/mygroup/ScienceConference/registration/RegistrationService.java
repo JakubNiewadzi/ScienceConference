@@ -27,7 +27,7 @@ public class RegistrationService {
 
         return userService.signUpUser(new User(
             request.getFirstName(),
-                request.getFirstName(),
+                request.getLastName(),
                 request.getEmail(),
                 request.getPassword(),
                 UserRole.GUEST

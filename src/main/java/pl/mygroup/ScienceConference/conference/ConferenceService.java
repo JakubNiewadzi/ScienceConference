@@ -49,11 +49,11 @@ public class ConferenceService {
         }
 
         Conference conference = repository.findById(id).get();
-        User organizer = userService.getUser(conferenceDTO.organizerEmail());
-        String name = conferenceDTO.name();
-        String description = conferenceDTO.description();
-        LocalDateTime startDate = conferenceDTO.startDate();
-        LocalDateTime endDate = conferenceDTO.endDate();
+        User organizer = userService.getUser(conferenceDTO.getOrganizerEmail());
+        String name = conferenceDTO.getName();
+        String description = conferenceDTO.getDescription();
+        LocalDateTime startDate = conferenceDTO.getStartDate();
+        LocalDateTime endDate = conferenceDTO.getEndDate();
 
 
         if (name != null &&
@@ -91,26 +91,26 @@ public class ConferenceService {
     }
 
     public ResponseEntity<String> createConference(ConferenceDTO conferenceDTO) {
-        if (conferenceDTO.name() == null ||
-                conferenceDTO.description() == null ||
-                conferenceDTO.startDate() == null ||
-                conferenceDTO.endDate() == null) {
+        if (conferenceDTO.getName() == null ||
+                conferenceDTO.getDescription() == null ||
+                conferenceDTO.getStartDate() == null ||
+                conferenceDTO.getEndDate() == null) {
             return ResponseEntity.badRequest().body("None of conference values can be null");
         }
-        if (conferenceDTO.endDate().isBefore(conferenceDTO.startDate())) {
+        if (conferenceDTO.getEndDate().isBefore(conferenceDTO.getStartDate())) {
             return ResponseEntity.badRequest().body("The conference cannot end before it started");
         }
 
 
-        if (conferenceDTO.endDate().isBefore(LocalDateTime.now()) ||
-                conferenceDTO.startDate().isBefore(LocalDateTime.now())) {
+        if (conferenceDTO.getEndDate().isBefore(LocalDateTime.now()) ||
+                conferenceDTO.getStartDate().isBefore(LocalDateTime.now())) {
             return ResponseEntity.badRequest().body("Cannot add a conference that has already started or ended");
         }
         User organizer;
-        if (conferenceDTO.organizerEmail() == null) {
+        if (conferenceDTO.getOrganizerEmail() == null) {
             organizer = userService.getUser("admin");
         }else{
-            organizer = userService.getUser(conferenceDTO.organizerEmail());
+            organizer = userService.getUser(conferenceDTO.getOrganizerEmail());
         }
         //return ResponseEntity.badRequest().body("Cannot find organizer in users database");
 
@@ -118,10 +118,10 @@ public class ConferenceService {
 
 
         Conference conference = new Conference();
-        conference.setName(conferenceDTO.name());
-        conference.setDescription(conferenceDTO.description());
-        conference.setStartDate(conferenceDTO.startDate());
-        conference.setEndDate(conferenceDTO.endDate());
+        conference.setName(conferenceDTO.getName());
+        conference.setDescription(conferenceDTO.getDescription());
+        conference.setStartDate(conferenceDTO.getStartDate());
+        conference.setEndDate(conferenceDTO.getEndDate());
         conference.setOrganizer(organizer);
         repository.save(conference);
         return ResponseEntity.ok().build();

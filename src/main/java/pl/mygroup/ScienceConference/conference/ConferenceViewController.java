@@ -1,11 +1,11 @@
 package pl.mygroup.ScienceConference.conference;
 
 import lombok.AllArgsConstructor;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import pl.mygroup.ScienceConference.panel.PanelDTO;
 import pl.mygroup.ScienceConference.panel.PanelService;
 
@@ -34,10 +34,29 @@ public class ConferenceViewController {
             return "index";
         }
         ConferenceDTO conference = conferenceOptional.get();
-        List<PanelDTO> panels = panelService.getPanelsByConference(conference.id());
+        List<PanelDTO> panels = panelService.getPanelsByConference(conference.getId());
         model.addAttribute("conference", conference);
         model.addAttribute("panels", panels);
         return "conferenceDetails";
+    }
+
+    @GetMapping("/add")
+    public String addConference(Model model){
+        if(!SecurityContextHolder.getContext().getAuthentication()
+                .getAuthorities()
+                .contains(new SimpleGrantedAuthority("ADMIN"))){
+            model.addAttribute("errorMessage", "Musisz mieć uprawnienia administratora, aby móc dodać nową konferencję!");
+            return getConferencesView(model);
+        }
+        model.addAttribute("conferenceDTO", new ConferenceDTO());
+        return "addConference";
+    }
+
+    @PostMapping("/add")
+    public String createConference(@ModelAttribute ConferenceDTO conferenceDTO){
+        System.out.println(conferenceDTO);
+        conferenceService.createConference(conferenceDTO);
+        return "redirect:/conference";
     }
 
 }
