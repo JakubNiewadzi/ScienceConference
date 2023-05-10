@@ -54,8 +54,30 @@ public class ConferenceViewController {
 
     @PostMapping("/add")
     public String createConference(@ModelAttribute ConferenceDTO conferenceDTO){
-        System.out.println(conferenceDTO);
         conferenceService.createConference(conferenceDTO);
+        return "redirect:/conference";
+    }
+
+    @GetMapping("/edit/{id}")
+    public String editConference(@PathVariable Long id, Model model){
+        Optional<ConferenceDTO> optionalConferenceDTO = conferenceService
+                .getConferenceDTO(id);
+        if(optionalConferenceDTO.isEmpty()){
+            return "redirect:/conference";
+        }
+        model.addAttribute("conferenceDTO", optionalConferenceDTO.get());
+        return "editConference";
+    }
+
+    @PostMapping("/edit/{id}")
+    public String getNewConference(@PathVariable Long id,
+                                   @ModelAttribute ConferenceDTO conferenceDTO){
+        return createConfernce(id, conferenceDTO);
+    }
+    @PutMapping("/edit/{id}")
+    public String createConfernce(Long id, ConferenceDTO conferenceDTO){
+        System.out.println("działa");
+        conferenceService.updateConference(id, conferenceDTO);
         return "redirect:/conference";
     }
 

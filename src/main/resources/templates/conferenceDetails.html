@@ -6,69 +6,93 @@
     <title>Conference Details Page</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
           integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-
+    <link rel="stylesheet" href="https://unpkg.com/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
     <style type="text/css">
         .bg-color {
     background-color: #277f97;
 }
- </style>
+
+    </style>
 </head>
 
 <body>
-<nav class="navbar fixed-top navbar-expand-sm navbar-light bg-color">
-    <div class="container">
-        <a class="navbar-brand mb-0 h1" href="/">Conference</a>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav me-auto">
-                <li class="nav-item active">
-                    <a class="nav-link active" href="/">Home Page</a>
-                </li>
-                <li class="nav-item dropdown">
-                    <a href="#" class="nav-link dropdown-toggle" id="navbarDropdown" role="button"
-                       data-toggle="dropdown" aria-expanded="false">Features</a>
-                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <li>
-                            <a href="#" class="dropdown-item">Feature #1</a>
-                        </li>
-                        <li>
-                            <a href="#" class="dropdown-item">Feature #2</a>
-                        </li>
-                        <li>
-                            <a href="#" class="dropdown-item">Feature #3</a>
-                        </li>
-                    </ul>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/conference">Conference</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link disabled" href="#">Disabled</a>
-                </li>
-            </ul>
-            <ul class="navbar-nav ms-auto" style="margin-left:auto;">
-                <li class="nav-item">
-                    <a class="nav-link" href="/logout">Log Out</a>
-                </li>
-            </ul>
+<div>
+    <nav class="navbar fixed-top navbar-expand-sm navbar-light bg-color">
+        <div class="container">
+            <a class="navbar-brand mb-0 h1" href="/">Conference</a>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link active" href="/">Home Page</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a href="#" class="nav-link dropdown-toggle" id="navbarDropdown" role="button"
+                           data-toggle="dropdown" aria-expanded="false">Features</a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <li>
+                                <a href="#" class="dropdown-item">Feature #1</a>
+                            </li>
+                            <li>
+                                <a href="#" class="dropdown-item">Feature #2</a>
+                            </li>
+                            <li>
+                                <a href="#" class="dropdown-item">Feature #3</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/conference">Conference</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link disabled" href="#">Disabled</a>
+                    </li>
+                </ul>
+                <ul class="navbar-nav ms-auto" style="margin-left:auto;">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/logout">Log Out</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container-fluid mb-2">
+        <div class="row justify-content-center">
+            <div class="col-lg-8 col-md-10">
+                <div class="card border-secondary rounded" style="margin-top: 80px;" th:object="${conference}">
+                    <div class="card-body text-center bg-color">
+                        <h5 class="card-title" th:text="${conference.name}"></h5>
+                        <p class="card-text" th:text="${conference.description}"></p>
+                        <p class="card-text" th:text="${conference.startDate + ' - ' + conference.endDate}"></p>
+                    </div>
+                </div>
+                <h1 class="text-center">Panele</h1>
+                <div class="card border-secondary rounded" style="margin-top: 80px;" th:each="panel:${panels}">
+                    <div class="card-body text-center bg-color">
+                        <p class="card-text" th:text="${panel.getDescription()}"></p>
+                        <p class="card-text" th:text="${panel.getStartDate() + ' - ' + panel.getEndDate()}"></p>
+                    </div>
+                </div>
+            </div>
+            <div class="container mt-5">
+                <div class="row">
+                    <div class="col-12 d-flex justify-content-center align-items-center">
+                        <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
+                            <div class="btn-group mr-2" role="group" aria-label="First group">
+                                <a th:href="@{/conference/edit/{id}(id=${conference.getId()})}" type="button" class="btn btn-secondary btn-lg"><i class="bi bi-pencil-square"></i> Edytuj konferencę</a>
+                            </div>
+                            <div class="btn-group" role="group" aria-label="Second group">
+                                <a type="button" class="btn btn-secondary btn-lg"><i class="bi bi-plus"></i> Dodaj panel do konferencji</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-</nav>
+</div>
 
 
-<!--<div class="container-fluid mb-2">-->
-<!--    <div class="row justify-content-center">-->
-<!--        <div class="col-lg-8 col-md-10">-->
-<!--            <div class="card border-secondary rounded" style="margin-top: 80px;" th:each="con:${conferences}">-->
-<!--                <div class="card-body text-center">-->
-<!--                    <h5 class="card-title" th:text="${con.getName()}"></h5>-->
-<!--                    <p class="card-text" th:text="${con.getDescription()}"></p>-->
-<!--                    <p class="card-text" th:text="${con.getStartDate() + ' - ' + con.getEndDate()}"></p>-->
-<!--                    <a th:href="@{/conference/{id}(id=${con.getId()})}" class="btn btn-primary">Zobacz więcej</a>-->
-<!--                </div>-->
-<!--            </div>-->
-<!--        </div>-->
-<!--    </div>-->
-<!--</div>-->
 
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
         integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"

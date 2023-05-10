@@ -27,7 +27,7 @@
 
 <div align="center" class="container">
     <form class="form-signup" th:action="@{/conference/add}" th:object="${conferenceDTO}" method="post">
-        <h1> Create new conference</h1>
+        <h1>Dodaj nową konferencję</h1>
         <div class="mb-3">
             <input class="form-control" type="text" name="name" placeholder="Name"
                    th:field="*{name}">
@@ -41,7 +41,7 @@
         <div class="form-group">
             <input type="datetime-local" class="form-control" id="endDateTime" th:field="*{endDate}" />
         </div>
-        <input type="submit" class="btn btn-success btn-block" name="submit" value="Submit">
+        <input type="submit" class="btn btn-success btn-block" name="submit" value="Dodaj">
     </form>
 </div>
 

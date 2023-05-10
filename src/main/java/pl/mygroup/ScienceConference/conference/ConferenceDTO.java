@@ -7,21 +7,22 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ConferenceDTO{
+public class ConferenceDTO implements Serializable{
         @JsonProperty
         private Long id;
         private String name;
         private String description;
-        @JsonFormat(pattern = "yyyy-MM-dd'T'hh:mm")
-        @DateTimeFormat(pattern = "yyyy-MM-dd'T'hh:mm")
+        @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm")
+        @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
         private LocalDateTime startDate;
-        @JsonFormat(pattern = "yyyy-MM-dd'T'hh:mm")
-        @DateTimeFormat(pattern = "yyyy-MM-dd'T'hh:mm")
+        @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm")
+        @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
         private LocalDateTime endDate;
         @JsonProperty
         private String organizerEmail;

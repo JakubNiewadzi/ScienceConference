@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import pl.mygroup.ScienceConference.user.User;
+import pl.mygroup.ScienceConference.user.UserRepository;
 import pl.mygroup.ScienceConference.user.UserRole;
 import pl.mygroup.ScienceConference.user.UserService;
 
@@ -21,6 +22,7 @@ public class ConferenceService {
     private final ConferenceRepository repository;
     private final ConferenceMapper conferenceMapper;
     private final UserService userService;
+    private final UserRepository userRepository;
 
     public List<Conference> getConferences() {
         return repository.findAll();
@@ -49,7 +51,7 @@ public class ConferenceService {
         }
 
         Conference conference = repository.findById(id).get();
-        User organizer = userService.getUser(conferenceDTO.getOrganizerEmail());
+        Optional<User> organizerOptional = userService.getUser(conferenceDTO.getOrganizerEmail());
         String name = conferenceDTO.getName();
         String description = conferenceDTO.getDescription();
         LocalDateTime startDate = conferenceDTO.getStartDate();
@@ -82,11 +84,12 @@ public class ConferenceService {
                 conference.setEndDate(endDate);
             }
         }
-
+        User organizer = organizerOptional.orElseGet(() -> userRepository.findByEmail("admin").get());
         if (!organizer.equals(conference.getOrganizer())
                 && organizer.getRole() == UserRole.ADMIN) {
             conference.setOrganizer(organizer);
         }
+
         return ResponseEntity.ok().build();
     }
 
@@ -108,15 +111,12 @@ public class ConferenceService {
         }
         User organizer;
         if (conferenceDTO.getOrganizerEmail() == null) {
-            organizer = userService.getUser("admin");
+            organizer = userService.getUser("admin").get();
         }else{
-            organizer = userService.getUser(conferenceDTO.getOrganizerEmail());
+            Optional<User>organizerOptional = userService.getUser(conferenceDTO.getOrganizerEmail());
+            organizer=organizerOptional.orElseGet(() -> userService.getUser("admin").get());
         }
         //return ResponseEntity.badRequest().body("Cannot find organizer in users database");
-
-
-
-
         Conference conference = new Conference();
         conference.setName(conferenceDTO.getName());
         conference.setDescription(conferenceDTO.getDescription());

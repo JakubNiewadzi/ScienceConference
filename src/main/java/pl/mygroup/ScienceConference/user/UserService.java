@@ -8,6 +8,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -44,9 +45,8 @@ public class UserService implements UserDetailsService {
                 .orElseThrow(IllegalArgumentException::new);
     }
 
-    public User getUser(String email){
-        return repository.findByEmail(email)
-                .orElseThrow(() -> new IllegalArgumentException("No such user in database"));
+    public Optional<User> getUser(String email){
+        return repository.findByEmail(email);
     }
 
     public String signUpUser(User user){
