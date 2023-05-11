@@ -14,7 +14,6 @@ public class PanelController {
 
     private final PanelService panelService;
 
-
     @GetMapping
     public ResponseEntity<List<PanelDTO>> getPanels(){
         List<PanelDTO> panels = panelService.getPanels();

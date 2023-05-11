@@ -24,10 +24,10 @@ public class Conference {
     )
     private Long id;
     private String name;
+    @Column(length = 2000)
     private String description;
     private LocalDateTime startDate;
     private LocalDateTime endDate;
-
     @JoinColumn(name="organizer_id")
     @ManyToOne(fetch = FetchType.LAZY)
     private User organizer;

@@ -24,6 +24,7 @@ public class Panel {
             generator = "panel_sequence"
     )
     private Long id;
+    @Column(length = 2000)
     private String description;
     private LocalDateTime startDate;
     private LocalDateTime endDate;

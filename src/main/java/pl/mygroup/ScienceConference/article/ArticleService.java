@@ -24,7 +24,6 @@ public class ArticleService {
     private final ArticleMapper articleMapper;
     private final ReviewRepository reviewRepository;
     private final UserRepository userRepository;
-    private final PanelRepository panelRepository;
 
 
     public List<ArticleDTO> getArticles() {
@@ -98,4 +97,8 @@ public class ArticleService {
                 .map(articleMapper).get();
         return ResponseEntity.ok(removedArticle);
     }
+//   TODO: artykuły z panelu
+//    public Optional<ArticleDTO> getArticlesByPanel(){
+//        return ;
+//    }
 }

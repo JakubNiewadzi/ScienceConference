@@ -9,8 +9,8 @@
     <link rel="stylesheet" href="https://unpkg.com/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
     <style type="text/css">
         .bg-color {
-    background-color: #277f97;
-}
+        background-color: #277f97;
+        }
 
     </style>
 </head>
@@ -66,11 +66,12 @@
                         <p class="card-text" th:text="${conference.startDate + ' - ' + conference.endDate}"></p>
                     </div>
                 </div>
-                <h1 class="text-center">Panele</h1>
+                <h1 class="text-center mt-5">Panele</h1>
                 <div class="card border-secondary rounded" style="margin-top: 80px;" th:each="panel:${panels}">
                     <div class="card-body text-center bg-color">
                         <p class="card-text" th:text="${panel.getDescription()}"></p>
                         <p class="card-text" th:text="${panel.getStartDate() + ' - ' + panel.getEndDate()}"></p>
+                        <a th:href="@{/panel/{id}(id=${panel.getId()})}" class="btn btn-secondary">Zobacz więcej</a>
                     </div>
                 </div>
             </div>
@@ -82,7 +83,7 @@
                                 <a th:href="@{/conference/edit/{id}(id=${conference.getId()})}" type="button" class="btn btn-secondary btn-lg"><i class="bi bi-pencil-square"></i> Edytuj konferencę</a>
                             </div>
                             <div class="btn-group" role="group" aria-label="Second group">
-                                <a type="button" class="btn btn-secondary btn-lg"><i class="bi bi-plus"></i> Dodaj panel do konferencji</a>
+                                <a th:href="@{/conference/{id}/addPanel(id=${conference.getId()})}" type="button" class="btn btn-secondary btn-lg"><i class="bi bi-plus"></i> Dodaj panel do konferencji</a>
                             </div>
                         </div>
                     </div>

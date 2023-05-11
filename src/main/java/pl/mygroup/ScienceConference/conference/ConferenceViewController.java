@@ -76,9 +76,23 @@ public class ConferenceViewController {
     }
     @PutMapping("/edit/{id}")
     public String createConfernce(Long id, ConferenceDTO conferenceDTO){
-        System.out.println("działa");
         conferenceService.updateConference(id, conferenceDTO);
         return "redirect:/conference";
     }
 
+    @GetMapping("/{conferenceId}/addPanel")
+    public String addPanelToConference(@PathVariable Long conferenceId,
+                                       Model model){
+        PanelDTO panelDTO = new PanelDTO();
+        model.addAttribute("panelDTO", panelDTO);
+        model.addAttribute("conferenceId", conferenceId);
+        return "addPanel";
+    }
+
+    @PostMapping("/{conferenceId}/addPanel")
+    public String createPanel(@PathVariable Long conferenceId,
+                              @ModelAttribute PanelDTO panelDTO){
+        panelService.createPanel(conferenceId, panelDTO);
+        return "redirect:/conference/{conferenceId}";
+    }
 }

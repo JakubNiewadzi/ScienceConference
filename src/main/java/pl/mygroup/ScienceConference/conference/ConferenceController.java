@@ -38,7 +38,7 @@ public class ConferenceController {
         return conference.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    @GetMapping("/{conferenceId}/panels")
+    @GetMapping("/{conferenceId}/panel")
     public ResponseEntity<List<PanelDTO>> getPanelsByConference(@PathVariable Long conferenceId){
         List<PanelDTO> panels = panelService.getPanelsByConference(conferenceId);
         if(panels.isEmpty()){
@@ -57,10 +57,9 @@ public class ConferenceController {
         return conferenceService.removeConference(id);
     }
 
-    @PostMapping("/{conferenceId}/panels")
+    @PostMapping("/{conferenceId}/panel")
     public ResponseEntity<String> createPanel(@PathVariable Long conferenceId,
                                                 @RequestBody PanelDTO panelDTO){
-        System.out.println(panelDTO);
         return panelService.createPanel(conferenceId, panelDTO);
 
     }

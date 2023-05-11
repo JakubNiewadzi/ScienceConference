@@ -116,7 +116,7 @@ public class ConferenceService {
             Optional<User>organizerOptional = userService.getUser(conferenceDTO.getOrganizerEmail());
             organizer=organizerOptional.orElseGet(() -> userService.getUser("admin").get());
         }
-        //return ResponseEntity.badRequest().body("Cannot find organizer in users database");
+
         Conference conference = new Conference();
         conference.setName(conferenceDTO.getName());
         conference.setDescription(conferenceDTO.getDescription());
