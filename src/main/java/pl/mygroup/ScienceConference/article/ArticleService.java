@@ -97,8 +97,10 @@ public class ArticleService {
                 .map(articleMapper).get();
         return ResponseEntity.ok(removedArticle);
     }
-//   TODO: artykuły z panelu
-//    public Optional<ArticleDTO> getArticlesByPanel(){
-//        return ;
-//    }
+
+    public List<ArticleDTO> getArticlesByPanel(Long panelId){
+        return articleRepository.findArticlesByPanelId(panelId)
+                .stream().map(articleMapper)
+                .toList();
+    }
 }

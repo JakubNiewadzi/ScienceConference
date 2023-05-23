@@ -52,7 +52,7 @@ public class StartUserConfig {
         Article article = new Article();
         article.setName("article");
         article.setCreator(admin);
-        article.setReference("localhost:8080");
+        article.setReference("https://www.youtube.com");
         articleRepository.save(article);
         /*Review review = new Review();
         review.setReviewer(admin);

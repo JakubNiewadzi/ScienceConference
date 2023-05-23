@@ -57,7 +57,6 @@ public class ConferenceService {
         LocalDateTime startDate = conferenceDTO.getStartDate();
         LocalDateTime endDate = conferenceDTO.getEndDate();
 
-
         if (name != null &&
                 name.length() > 0 &&
                 !name.equals(conference.getName())) {
@@ -84,7 +83,9 @@ public class ConferenceService {
                 conference.setEndDate(endDate);
             }
         }
-        User organizer = organizerOptional.orElseGet(() -> userRepository.findByEmail("admin").get());
+
+        User organizer = organizerOptional.orElseGet(() ->
+                userRepository.findByEmail("admin").get());
         if (!organizer.equals(conference.getOrganizer())
                 && organizer.getRole() == UserRole.ADMIN) {
             conference.setOrganizer(organizer);
@@ -100,10 +101,10 @@ public class ConferenceService {
                 conferenceDTO.getEndDate() == null) {
             return ResponseEntity.badRequest().body("None of conference values can be null");
         }
+
         if (conferenceDTO.getEndDate().isBefore(conferenceDTO.getStartDate())) {
             return ResponseEntity.badRequest().body("The conference cannot end before it started");
         }
-
 
         if (conferenceDTO.getEndDate().isBefore(LocalDateTime.now()) ||
                 conferenceDTO.getStartDate().isBefore(LocalDateTime.now())) {

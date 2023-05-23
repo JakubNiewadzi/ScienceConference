@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import pl.mygroup.ScienceConference.panel.PanelDTO;
 import pl.mygroup.ScienceConference.panel.PanelService;
+import pl.mygroup.ScienceConference.security.config.WebSecurityConfig;
 
 import java.util.List;
 import java.util.Optional;
@@ -19,10 +20,12 @@ public class ConferenceViewController {
 
     private final ConferenceService conferenceService;
     private final PanelService panelService;
+    private final WebSecurityConfig securityConfig;
 
     @GetMapping
     public String getConferencesView(Model model){
         List<Conference> conferences = conferenceService.getConferences();
+        model.addAttribute("isLoggedIn", securityConfig.isLoggedIn());
         model.addAttribute("conferences", conferences);
         return "conference";
     }
@@ -35,6 +38,7 @@ public class ConferenceViewController {
         }
         ConferenceDTO conference = conferenceOptional.get();
         List<PanelDTO> panels = panelService.getPanelsByConference(conference.getId());
+        model.addAttribute("isLoggedIn", securityConfig.isLoggedIn());
         model.addAttribute("conference", conference);
         model.addAttribute("panels", panels);
         return "conferenceDetails";
@@ -48,6 +52,7 @@ public class ConferenceViewController {
             model.addAttribute("errorMessage", "Musisz mieć uprawnienia administratora, aby móc dodać nową konferencję!");
             return getConferencesView(model);
         }
+
         model.addAttribute("conferenceDTO", new ConferenceDTO());
         return "addConference";
     }

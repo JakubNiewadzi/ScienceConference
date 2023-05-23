@@ -23,11 +23,11 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav me-auto">
                     <li class="nav-item active">
-                        <a class="nav-link active" href="/">Home Page</a>
+                        <a class="nav-link active" href="/">Strona główna</a>
                     </li>
                     <li class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle" id="navbarDropdown" role="button"
-                           data-toggle="dropdown" aria-expanded="false">Features</a>
+                           data-toggle="dropdown" aria-expanded="false">Artykuły</a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                             <li>
                                 <a href="#" class="dropdown-item">Feature #1</a>
@@ -41,20 +41,30 @@
                         </ul>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/conference">Conference</a>
+                        <a class="nav-link" href="/conference">Konferencje</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link disabled" href="#">Disabled</a>
                     </li>
                 </ul>
-                <ul class="navbar-nav ms-auto" style="margin-left:auto;">
-                    <li class="nav-item">
-                        <a class="nav-link" href="/logout">Log Out</a>
-                    </li>
-                </ul>
+                <div th:if="${isLoggedIn == true}"  style="margin-left:auto;">
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="/logout">Log Out</a>
+                        </li>
+                    </ul>
+                </div>
+                <div th:if="${isLoggedIn == false}" style="margin-left:auto;">
+                    <ul class="navbar-nav ms-auto" >
+                        <li class="nav-item">
+                            <a class="nav-link" href="/login">Log in</a>
+                        </li>
+                    </ul>
+                </div>
             </div>
         </div>
     </nav>
+
 
     <div class="container-fluid mb-2">
         <div class="row justify-content-center">

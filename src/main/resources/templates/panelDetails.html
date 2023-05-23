@@ -3,7 +3,7 @@
 <html xmlns:th="https://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Conference Details Page</title>
+    <title>Panel details</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
           integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="stylesheet" href="https://unpkg.com/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
@@ -14,7 +14,6 @@
 
     </style>
 </head>
-
 <body>
 <div>
     <nav class="navbar fixed-top navbar-expand-sm navbar-light bg-color">
@@ -69,19 +68,22 @@
     <div class="container-fluid mb-2">
         <div class="row justify-content-center">
             <div class="col-lg-8 col-md-10">
-                <div class="card border-secondary rounded" style="margin-top: 80px;" th:object="${conference}">
+                <div class="card border-secondary rounded" style="margin-top: 80px;" th:object="${panel}">
                     <div class="card-body text-center bg-color">
-                        <h5 class="card-title" th:text="${conference.name}"></h5>
-                        <p class="card-text" th:text="${conference.description}"></p>
-                        <p class="card-text" th:text="${conference.startDate + ' - ' + conference.endDate}"></p>
+                        <h5 class="card-title" th:text="${'Panel na konferencji: ' + panel.conferenceName}"></h5>
+                        <p class="card-text" th:text="${panel.description}"></p>
+                        <p class="card-text" th:text="${panel.startDate + ' - ' + panel.endDate}"></p>
                     </div>
                 </div>
-                <h1 class="text-center mt-5">Panele</h1>
-                <div class="card border-secondary rounded" style="margin-top: 80px;" th:each="panel:${panels}">
+                <h1 class="text-center mt-5">Artykuły</h1>
+                <div class="card border-secondary rounded" style="margin-top: 80px;" th:each="article:${articles}">
                     <div class="card-body text-center bg-color">
-                        <p class="card-text" th:text="${panel.getDescription()}"></p>
-                        <p class="card-text" th:text="${panel.getStartDate() + ' - ' + panel.getEndDate()}"></p>
-                        <a th:href="@{/panel/{id}(id=${panel.getId()})}" class="btn btn-secondary">Zobacz więcej</a>
+                        <p class="card-text" th:text="${article.name}"></p>
+                        <a  th:href="@{{reference}(reference=${article.reference})}" style="color: black;">
+                            <span th:text="${article.reference}"></span>
+                        </a>
+                        <p class="card-text" th:text="${article.averageRating}"></p>
+                        <a th:href="@{/article/{id}(id=${article.id})}" class="btn btn-secondary">Zobacz więcej</a>
                     </div>
                 </div>
             </div>
@@ -90,10 +92,10 @@
                     <div class="col-12 d-flex justify-content-center align-items-center">
                         <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
                             <div class="btn-group mr-2" role="group" aria-label="First group">
-                                <a th:href="@{/conference/edit/{id}(id=${conference.getId()})}" type="button" class="btn btn-secondary btn-lg"><i class="bi bi-pencil-square"></i> Edytuj konferencę</a>
+                                <a th:href="@{/panel/edit/{id}(id=${panel.id})}" type="button" class="btn btn-secondary btn-lg"><i class="bi bi-pencil-square"></i> Edytuj panel</a>
                             </div>
                             <div class="btn-group" role="group" aria-label="Second group">
-                                <a th:href="@{/conference/{id}/addPanel(id=${conference.getId()})}" type="button" class="btn btn-secondary btn-lg"><i class="bi bi-plus"></i> Dodaj panel do konferencji</a>
+                                <a th:href="@{/panel/{id}/addArticle(id=${panel.id})}" type="button" class="btn btn-secondary btn-lg"><i class="bi bi-plus"></i> Dodaj artukuł do konferencji</a>
                             </div>
                         </div>
                     </div>
@@ -102,9 +104,6 @@
         </div>
     </div>
 </div>
-
-
-
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
         integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
         crossorigin="anonymous"></script>
