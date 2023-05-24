@@ -77,10 +77,11 @@ public class ConferenceViewController {
     @PostMapping("/edit/{id}")
     public String getNewConference(@PathVariable Long id,
                                    @ModelAttribute ConferenceDTO conferenceDTO){
-        return createConfernce(id, conferenceDTO);
+        return updateConfernce(id, conferenceDTO);
     }
+
     @PutMapping("/edit/{id}")
-    public String createConfernce(Long id, ConferenceDTO conferenceDTO){
+    public String updateConfernce(Long id, ConferenceDTO conferenceDTO){
         conferenceService.updateConference(id, conferenceDTO);
         return "redirect:/conference";
     }

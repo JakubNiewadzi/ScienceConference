@@ -103,4 +103,10 @@ public class ArticleService {
                 .stream().map(articleMapper)
                 .toList();
     }
+
+    public List<ArticleDTO> getArticlesNotInPanel(Long panelId){
+        return articleRepository.findArticlesNotInPanel(panelId)
+                .stream().map(articleMapper)
+                .toList();
+    }
 }

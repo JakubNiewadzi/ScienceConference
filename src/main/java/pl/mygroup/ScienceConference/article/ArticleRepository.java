@@ -16,4 +16,7 @@ public interface ArticleRepository extends JpaRepository<Article, Long> {
     @Query("SELECT a FROM Article a JOIN a.panels p WHERE p.id = :panelId")
     List<Article> findArticlesByPanelId(@Param("panelId") Long panelId);
 
+    @Query("SELECT a FROM Article a LEFT JOIN a.panels p WHERE p.id IS NULL OR p.id != :panelId")
+    List<Article> findArticlesNotInPanel(@Param("panelId") Long panelId);
+
 }

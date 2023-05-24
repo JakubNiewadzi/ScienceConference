@@ -102,4 +102,28 @@ public class PanelService {
         return ResponseEntity.ok(panelDTO);
     }
 
+    @Transactional
+    public ResponseEntity<String> updatePanel(Long panelId, PanelDTO panelDTO){
+        Optional<Panel> panelOptional = panelRepository.findById(panelId);
+        if (panelOptional.isEmpty()){
+            return ResponseEntity.badRequest().build();
+        }
+        Panel panel = panelOptional.get();
+        if(panelDTO.getDescription().isEmpty() ||
+            panelDTO.getDescription().isBlank()){
+            return ResponseEntity.badRequest().body("Description cannot be empty or blank");
+        }
+
+        if(panelDTO.getStartDate().isAfter(panelDTO.getEndDate()) ||
+            panelDTO.getStartDate().isBefore(LocalDateTime.now()) ||
+            panelDTO.getStartDate() == null || panelDTO.getEndDate() == null){
+            return ResponseEntity.badRequest().body("Invalid date");
+        }
+
+        panel.setDescription(panelDTO.getDescription());
+        panel.setStartDate(panelDTO.getStartDate());
+        panel.setEndDate(panelDTO.getEndDate());
+        return ResponseEntity.ok().build();
+    }
+
 }
