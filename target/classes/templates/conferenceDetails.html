@@ -79,7 +79,7 @@
                 <h1 class="text-center mt-5">Panele</h1>
                 <div class="card border-secondary rounded" style="margin-top: 80px;" th:each="panel:${panels}">
                     <div class="card-body text-center bg-color">
-                        <p class="card-text" th:text="${panel.getDescription()}"></p>
+                        <p class="card-text" th:text="${'Opis panelu: ' + panel.getDescription()}"></p>
                         <p class="card-text" th:text="${panel.getStartDate() + ' - ' + panel.getEndDate()}"></p>
                         <a th:href="@{/panel/{id}(id=${panel.getId()})}" class="btn btn-secondary">Zobacz więcej</a>
                     </div>

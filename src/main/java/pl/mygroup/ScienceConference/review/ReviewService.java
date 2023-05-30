@@ -72,4 +72,9 @@ public class ReviewService {
         reviewRepository.deleteById(id);
         return ResponseEntity.ok(removedReview);
     }
+
+    public List<ReviewDTO> getReviewsByArticle(Long articleId){
+        return reviewRepository.findByArticleId(articleId)
+                .stream().map(reviewMapper).toList();
+    }
 }

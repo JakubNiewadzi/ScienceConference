@@ -78,11 +78,11 @@
                 <h1 class="text-center mt-5">Artykuły</h1>
                 <div class="card border-secondary rounded" style="margin-top: 80px;" th:each="article:${articles}">
                     <div class="card-body text-center bg-color">
-                        <p class="card-text" th:text="${article.name}"></p>
+                        <p class="card-text" th:text="${'Nazwa artykułu: ' + article.name}"></p>
                         <a  th:href="@{{reference}(reference=${article.reference})}" style="color: black;">
                             <span th:text="${article.reference}"></span>
                         </a>
-                        <p class="card-text" th:text="${article.averageRating}"></p>
+                        <p class="card-text" th:text="${'Średnia ocen: ' + article.averageRating}"></p>
                         <a th:href="@{/article/{id}(id=${article.id})}" class="btn btn-secondary">Zobacz więcej</a>
                     </div>
                 </div>

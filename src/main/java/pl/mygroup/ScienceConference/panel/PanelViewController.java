@@ -67,7 +67,7 @@ public class PanelViewController {
             return "addArticleToPanel";
         }
         model.addAttribute("noArticles", true);
-        return "";
+        return "redirect:/panel/{id}";
     }
 
     @GetMapping("/addArticle/{panelId}/{articleId}")

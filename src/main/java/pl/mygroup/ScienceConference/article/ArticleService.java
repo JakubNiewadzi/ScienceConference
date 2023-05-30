@@ -109,4 +109,24 @@ public class ArticleService {
                 .stream().map(articleMapper)
                 .toList();
     }
+
+    @Transactional
+    public ResponseEntity<String> updateArticle(Long id, ArticleDTO articleDTO){
+        Optional<Article> articleOptional = articleRepository.findById(id);
+        if(articleOptional.isEmpty()){
+            return ResponseEntity.badRequest().build();
+        }
+        Article article = articleOptional.get();
+        if(article.getName().isEmpty() ||
+            article.getName().isBlank()){
+            return ResponseEntity.badRequest().body("Name cannot be empty or blank");
+        }
+        if(article.getReference().isEmpty() ||
+           article.getReference().isBlank()){
+            return ResponseEntity.badRequest().body("Reference cannot be empty or blank");
+        }
+        article.setName(articleDTO.getName());
+        article.setReference(articleDTO.getReference());
+        return ResponseEntity.ok().body("Article successfully updated");
+    }
 }
