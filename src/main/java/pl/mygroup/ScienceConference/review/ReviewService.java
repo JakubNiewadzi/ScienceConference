@@ -36,9 +36,14 @@ public class ReviewService {
         if(reviewDTO.getReviewContent() == null){
             return ResponseEntity.badRequest().body("Review content cannot be null");
         }
-        if(reviewDTO.getRating() < 0.0 ||
-                reviewDTO.getRating() > 5.0){
-            return ResponseEntity.badRequest().body("Review rating needs to be between 0 and 5");
+
+        if(reviewDTO.getRating() < 0.00 ||
+                reviewDTO.getRating() > 5.00){
+            return ResponseEntity.badRequest().body("Review rating has to be between 0 and 5");
+        }
+        if(reviewDTO.getReviewContent().isBlank() ||
+           reviewDTO.getReviewContent().isEmpty()){
+            return ResponseEntity.badRequest().body("Review content cannot be empty or blank");
         }
         Optional<Article> articleOptional = articleRepository.findById(articleId);
 
@@ -56,6 +61,19 @@ public class ReviewService {
         if(!(authentication.getPrincipal() instanceof String)){
             currentUser = (User) authentication.getPrincipal();
         }
+        final User reviewer = currentUser;
+
+        if(currentUser.equals(articleOptional.get().getCreator())){
+            return ResponseEntity.badRequest().body("You cannot review your own article!");
+        }
+
+        List<Review> reviews = reviewRepository.findAll();
+
+        if(reviews.stream().anyMatch(r -> r.getReviewer()
+                .equals(reviewer))){
+            return ResponseEntity.badRequest().body("This reviewer has already made a review of this article!");
+        }
+
         review.setReviewer(currentUser);
         reviewRepository.save(review);
         return ResponseEntity.ok().body("Review successfully created");
@@ -77,4 +95,5 @@ public class ReviewService {
         return reviewRepository.findByArticleId(articleId)
                 .stream().map(reviewMapper).toList();
     }
+
 }

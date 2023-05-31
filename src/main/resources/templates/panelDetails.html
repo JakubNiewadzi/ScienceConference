@@ -49,14 +49,17 @@
                 <div th:if="${isLoggedIn == true}"  style="margin-left:auto;">
                     <ul class="navbar-nav ms-auto">
                         <li class="nav-item">
-                            <a class="nav-link" href="/logout">Log Out</a>
+                            <a class="nav-link" href="/logout">Wyolguj się</a>
                         </li>
                     </ul>
                 </div>
                 <div th:if="${isLoggedIn == false}" style="margin-left:auto;">
                     <ul class="navbar-nav ms-auto" >
                         <li class="nav-item">
-                            <a class="nav-link" href="/login">Log in</a>
+                            <a class="nav-link" href="/login">Zaloguj się</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/registration">Zarejestruj się</a>
                         </li>
                     </ul>
                 </div>
@@ -78,7 +81,7 @@
                 <h1 class="text-center mt-5">Artykuły</h1>
                 <div class="card border-secondary rounded" style="margin-top: 80px;" th:each="article:${articles}">
                     <div class="card-body text-center bg-color">
-                        <p class="card-text" th:text="${'Nazwa artykułu: ' + article.name}"></p>
+                        <h5 class="card-text" th:text="${'Nazwa artykułu: ' + article.name}"></h5>
                         <a  th:href="@{{reference}(reference=${article.reference})}" style="color: black;">
                             <span th:text="${article.reference}"></span>
                         </a>

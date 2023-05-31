@@ -1,6 +1,8 @@
 package pl.mygroup.ScienceConference.article;
 
 import lombok.AllArgsConstructor;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -18,6 +20,17 @@ public class ArticleViewController {
     private final ArticleService articleService;
     private final WebSecurityConfig webSecurityConfig;
     private final ReviewService reviewService;
+
+    @GetMapping
+    public String getArticles(Model model){
+        List<ArticleDTO> articleDTOS = articleService.getArticles();
+        if(articleDTOS.isEmpty()){
+            return "redirect:/";
+        }
+        model.addAttribute("articles", articleDTOS);
+        model.addAttribute("isLoggedIn", webSecurityConfig.isLoggedIn());
+        return "article";
+    }
 
     @GetMapping("/{id}")
     public String getArticle(@PathVariable Long id,
@@ -42,6 +55,40 @@ public class ArticleViewController {
         }
         model.addAttribute("articleDTO", articleDTO);
         return "editArticle";
+    }
+
+    @GetMapping("/add")
+    public String addArticle(Model model){
+        if(!SecurityContextHolder.getContext().getAuthentication()
+                .getAuthorities()
+                .contains(new SimpleGrantedAuthority("ADMIN"))){
+            model.addAttribute("errorMessage", "Musisz mieć uprawnienia administratora, aby móc dodać nowy artykuł!");
+            return getArticles(model);
+        }
+
+        model.addAttribute("articleDTO", new ArticleDTO());
+        return "addArticle";
+    }
+
+    @GetMapping("/addReview/{articleId}")
+    public String addReview(@PathVariable Long articleId,
+                            Model model){
+        model.addAttribute("reviewDTO", new ReviewDTO());
+        model.addAttribute("articleId", articleId);
+        return "addReviewToArticle";
+    }
+
+    @PostMapping("/addReview/{articleId}")
+    public String createReview(@PathVariable Long articleId,
+                               @ModelAttribute ReviewDTO reviewDTO){
+        reviewService.createReview(reviewDTO, articleId);
+        return "redirect:/article/{articleId}";
+    }
+
+    @PostMapping("/add")
+    public String createArticle(@ModelAttribute ArticleDTO articleDTO){
+        articleService.createArticle(articleDTO);
+        return "redirect:/article";
     }
 
     @PostMapping("/edit/{id}")
