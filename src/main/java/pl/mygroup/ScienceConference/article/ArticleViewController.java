@@ -103,4 +103,16 @@ public class ArticleViewController {
         articleService.updateArticle(id, articleDTO);
         return "redirect:/article/{id}";
     }
+
+    @GetMapping("/delete/{id}")
+    public String deleteArticle(@PathVariable Long id){
+        return removeArticle(id);
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public String removeArticle(@PathVariable Long id){
+        articleService.removeArticle(id);
+        return "redirect:/article";
+    }
+
 }

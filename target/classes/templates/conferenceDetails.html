@@ -50,14 +50,17 @@
                 <div th:if="${isLoggedIn == true}"  style="margin-left:auto;">
                     <ul class="navbar-nav ms-auto">
                         <li class="nav-item">
-                            <a class="nav-link" href="/logout">Log Out</a>
+                            <a class="nav-link" href="/logout">Wyolguj się</a>
                         </li>
                     </ul>
                 </div>
                 <div th:if="${isLoggedIn == false}" style="margin-left:auto;">
                     <ul class="navbar-nav ms-auto" >
                         <li class="nav-item">
-                            <a class="nav-link" href="/login">Log in</a>
+                            <a class="nav-link" href="/login">Zaloguj się</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/registration">Zarejestruj się</a>
                         </li>
                     </ul>
                 </div>
@@ -79,9 +82,16 @@
                 <h1 class="text-center mt-5">Panele</h1>
                 <div class="card border-secondary rounded" style="margin-top: 80px;" th:each="panel:${panels}">
                     <div class="card-body text-center bg-color">
-                        <p class="card-text" th:text="${'Opis panelu: ' + panel.getDescription()}"></p>
-                        <p class="card-text" th:text="${panel.getStartDate() + ' - ' + panel.getEndDate()}"></p>
-                        <a th:href="@{/panel/{id}(id=${panel.getId()})}" class="btn btn-secondary">Zobacz więcej</a>
+                        <p class="card-text" th:text="${'Opis panelu: ' + panel.description}"></p>
+                        <p class="card-text" th:text="${panel.startDate + ' - ' + panel.endDate}"></p>
+                        <div class="row">
+                            <div class="col-12 d-flex justify-content-center align-items-center flex-column">
+                                <a th:href="@{/panel/{id}(id=${panel.id})}" class="btn btn-secondary btn-lg mb-3">Zobacz więcej</a>
+                                <a th:href="@{/panel/delete/{id}(id=${panel.id})}" class="btn btn-danger btn-lg">
+                                    <i class="bi bi-trash"></i> Usuń panel
+                                </a>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

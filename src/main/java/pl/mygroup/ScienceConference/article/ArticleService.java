@@ -92,6 +92,7 @@ public class ArticleService {
             return ResponseEntity.notFound().build();
         }
         removedArticleOptional.get().getPanels().clear();
+        reviewRepository.removeAllReviewsFromArticle(id);
         articleRepository.deleteById(id);
         ArticleDTO removedArticle = removedArticleOptional
                 .map(articleMapper).get();

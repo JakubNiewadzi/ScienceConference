@@ -53,7 +53,7 @@ public class ConferenceController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> removeConference(@PathVariable Long id) {
+    public ResponseEntity<ConferenceDTO> removeConference(@PathVariable Long id) {
         return conferenceService.removeConference(id);
     }
 

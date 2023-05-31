@@ -14,6 +14,8 @@
     background-color: #277f97;
 }
 
+
+
     </style>
 
 </head>
@@ -48,17 +50,20 @@
                     <a class="nav-link disabled" href="#">Disabled</a>
                 </li>
             </ul>
-            <div th:if="${isLoggedIn == true}"  style="margin-left:auto;">
+            <div th:if="${isLoggedIn == true}" style="margin-left:auto;">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="/logout">Log Out</a>
+                        <a class="nav-link" href="/logout">Wyolguj się</a>
                     </li>
                 </ul>
             </div>
             <div th:if="${isLoggedIn == false}" style="margin-left:auto;">
-                <ul class="navbar-nav ms-auto" >
+                <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="/login">Log in</a>
+                        <a class="nav-link" href="/login">Zaloguj się</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/registration">Zarejestruj się</a>
                     </li>
                 </ul>
             </div>
@@ -67,23 +72,30 @@
 </nav>
 
 
-
 <div class="container-fluid mb-2">
     <div class="row justify-content-center">
         <div class="col-lg-8 col-md-10">
             <div class="card border-secondary rounded" style="margin-top: 80px;" th:each="con:${conferences}">
                 <div class="card-body text-center bg-color">
-                    <h5 class="card-title" th:text="${con.getName()}"></h5>
-                    <p class="card-text" th:text="${con.getDescription()}"></p>
-                    <p class="card-text" th:text="${con.getStartDate() + ' - ' + con.getEndDate()}"></p>
-                    <a th:href="@{/conference/{id}(id=${con.getId()})}" class="btn btn-secondary">Zobacz więcej</a>
+                    <h5 class="card-title" th:text="${con.name}"></h5>
+                    <p class="card-text" th:text="${con.description}"></p>
+                    <p class="card-text" th:text="${con.startDate + ' - ' + con.endDate}"></p>
+                    <div class="row">
+                        <div class="col-12 d-flex justify-content-center align-items-center flex-column">
+                            <a th:href="@{/conference/{id}(id=${con.getId()})}" class="btn btn-secondary btn-lg mb-3">Zobacz więcej</a>
+                            <a th:href="@{/conference/delete/{id}(id=${con.id})}" class="btn btn-danger btn-lg">
+                                <i class="bi bi-trash"></i> Usuń konferencję
+                            </a>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
         <div class="container mt-5">
             <div class="row">
                 <div class="col-12 d-flex justify-content-center align-items-center">
-                    <a href="/conference/add" class="btn btn-secondary btn-lg" ><i class="bi bi-plus"></i> Dodaj konferencę</a>
+                    <a href="/conference/add" class="btn btn-secondary btn-lg"><i class="bi bi-plus"></i> Dodaj
+                        konferencę</a>
                 </div>
             </div>
             <div th:if="${errorMessage}" class="alert alert-danger mt-3" role="alert">

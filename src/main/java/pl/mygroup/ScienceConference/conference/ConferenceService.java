@@ -4,6 +4,7 @@ package pl.mygroup.ScienceConference.conference;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import pl.mygroup.ScienceConference.panel.PanelRepository;
 import pl.mygroup.ScienceConference.user.User;
 import pl.mygroup.ScienceConference.user.UserRepository;
 import pl.mygroup.ScienceConference.user.UserRole;
@@ -23,6 +24,7 @@ public class ConferenceService {
     private final ConferenceMapper conferenceMapper;
     private final UserService userService;
     private final UserRepository userRepository;
+    private final PanelRepository panelRepository;
 
     public List<Conference> getConferences() {
         return repository.findAll();
@@ -113,9 +115,9 @@ public class ConferenceService {
         User organizer;
         if (conferenceDTO.getOrganizerEmail() == null) {
             organizer = userService.getUser("admin").get();
-        }else{
-            Optional<User>organizerOptional = userService.getUser(conferenceDTO.getOrganizerEmail());
-            organizer=organizerOptional.orElseGet(() -> userService.getUser("admin").get());
+        } else {
+            Optional<User> organizerOptional = userService.getUser(conferenceDTO.getOrganizerEmail());
+            organizer = organizerOptional.orElseGet(() -> userService.getUser("admin").get());
         }
 
         Conference conference = new Conference();
@@ -128,8 +130,17 @@ public class ConferenceService {
         return ResponseEntity.ok().build();
     }
 
-    public ResponseEntity<String> removeConference(Long id) {
+    @Transactional
+    public ResponseEntity<ConferenceDTO> removeConference(Long id) {
+        Optional<Conference> conferenceOptional = repository.findById(id);
+        if (conferenceOptional.isEmpty()) {
+            return ResponseEntity.badRequest().build();
+        }
+        ConferenceDTO removedConference = conferenceOptional
+                .map(conferenceMapper)
+                .get();
+        panelRepository.removeAllPanelsFromConference(id);
         repository.deleteById(id);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok(removedConference);
     }
 }

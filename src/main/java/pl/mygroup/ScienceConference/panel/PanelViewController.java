@@ -22,9 +22,9 @@ public class PanelViewController {
 
     @GetMapping("/{id}")
     public String getPanel(@PathVariable Long id,
-                           Model model){
+                           Model model) {
         Optional<PanelDTO> optionalPanelDTO = panelService.getPanel(id);
-        if(optionalPanelDTO.isEmpty()){
+        if (optionalPanelDTO.isEmpty()) {
             return "redirect:/";
         }
         List<ArticleDTO> articles = articleService.getArticlesByPanel(id);
@@ -36,9 +36,9 @@ public class PanelViewController {
 
     @GetMapping("/edit/{id}")
     public String editPanel(@PathVariable Long id,
-                            Model model){
+                            Model model) {
         Optional<PanelDTO> optionalPanelDTO = panelService.getPanel(id);
-        if(optionalPanelDTO.isEmpty()){
+        if (optionalPanelDTO.isEmpty()) {
             return "redirect:/conference";
         }
         model.addAttribute("panel", optionalPanelDTO.get());
@@ -47,22 +47,21 @@ public class PanelViewController {
 
     @PostMapping("/edit/{id}")
     public String getNewPanel(@PathVariable Long id,
-                              @ModelAttribute PanelDTO panelDTO){
+                              @ModelAttribute PanelDTO panelDTO) {
         return updatePanel(id, panelDTO);
     }
 
     @PutMapping("/edit/{id}")
-    public String updatePanel(@PathVariable Long id, PanelDTO panelDTO){
+    public String updatePanel(@PathVariable Long id, PanelDTO panelDTO) {
         panelService.updatePanel(id, panelDTO);
         return "redirect:/panel/{id}";
     }
 
     @GetMapping("/addArticle/{id}")
-    public String getArticlesNotInPanel(@PathVariable Long id, Model model){
-        List<ArticleDTO> artclesNotInPanel = articleService.getArticlesNotInPanel(id);
-        System.out.println(artclesNotInPanel);
-        if(!artclesNotInPanel.isEmpty()) {
-            model.addAttribute("articles", artclesNotInPanel);
+    public String getArticlesNotInPanel(@PathVariable Long id, Model model) {
+        List<ArticleDTO> articlesNotInPanel = articleService.getArticlesNotInPanel(id);
+        if (!articlesNotInPanel.isEmpty()) {
+            model.addAttribute("articles", articlesNotInPanel);
             model.addAttribute("id", id);
             return "addArticleToPanel";
         }
@@ -72,15 +71,26 @@ public class PanelViewController {
 
     @GetMapping("/addArticle/{panelId}/{articleId}")
     public String getArticleToAdd(@PathVariable Long panelId,
-                                  @PathVariable Long articleId){
+                                  @PathVariable Long articleId) {
         return addArticleToPanel(panelId, articleId);
     }
 
     @PatchMapping("/addArticle/{panelId}/{articleId}")
     public String addArticleToPanel(@PathVariable Long panelId,
-                                  @PathVariable Long articleId){
+                                    @PathVariable Long articleId) {
         panelService.addArticleToPanel(panelId, articleId);
         return "redirect:/panel/{panelId}";
+    }
+
+    @GetMapping("/delete/{id}")
+    public String deletePanel(@PathVariable Long id) {
+        return removePanel(id);
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public String removePanel(@PathVariable Long id) {
+        panelService.removePanel(id);
+        return "redirect:/conference";
     }
 
 }

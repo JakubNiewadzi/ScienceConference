@@ -101,4 +101,15 @@ public class ConferenceViewController {
         panelService.createPanel(conferenceId, panelDTO);
         return "redirect:/conference/{conferenceId}";
     }
+
+    @GetMapping("/delete/{id}")
+    public String deleteConference(@PathVariable Long id){
+        return removeConference(id);
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public String removeConference(@PathVariable Long id){
+        conferenceService.removeConference(id);
+        return "redirect:/conference";
+    }
 }

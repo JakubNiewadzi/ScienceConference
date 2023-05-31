@@ -72,7 +72,7 @@ public class PanelService {
         Optional<Panel> removedPanelOptional = panelRepository.
                 findById(id);
         if(removedPanelOptional.isEmpty()){
-            return ResponseEntity.notFound().build();
+            return ResponseEntity.badRequest().build();
         }
         removedPanelOptional.get().getArticles().clear();
         articleRepository.findAll().forEach(
