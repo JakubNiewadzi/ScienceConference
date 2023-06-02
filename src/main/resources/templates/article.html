@@ -22,26 +22,14 @@
 <div>
     <nav class="navbar fixed-top navbar-expand-sm navbar-light bg-color">
         <div class="container">
-            <a class="navbar-brand mb-0 h1" href="/">Conference</a>
+            <a class="navbar-brand mb-0 h1" href="#">Conference</a>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav me-auto">
                     <li class="nav-item active">
                         <a class="nav-link active" href="/">Strona główna</a>
                     </li>
-                    <li class="nav-item dropdown">
-                        <a href="#" class="nav-link dropdown-toggle" id="navbarDropdown" role="button"
-                           data-toggle="dropdown" aria-expanded="false">Artykuły</a>
-                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <li>
-                                <a href="#" class="dropdown-item">Feature #1</a>
-                            </li>
-                            <li>
-                                <a href="#" class="dropdown-item">Feature #2</a>
-                            </li>
-                            <li>
-                                <a href="#" class="dropdown-item">Feature #3</a>
-                            </li>
-                        </ul>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/article">Artykuły</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="/conference">Konferencje</a>
@@ -53,7 +41,7 @@
                 <div th:if="${isLoggedIn == true}" style="margin-left:auto;">
                     <ul class="navbar-nav ms-auto">
                         <li class="nav-item">
-                            <a class="nav-link" href="/logout">Wyolguj się</a>
+                            <a class="nav-link" href="/logout">Wyloguj się</a>
                         </li>
                     </ul>
                 </div>
@@ -108,6 +96,7 @@
         </div>
     </div>
 </div>
+
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
         integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
         crossorigin="anonymous"></script>

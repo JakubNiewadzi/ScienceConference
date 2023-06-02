@@ -10,6 +10,7 @@ import pl.mygroup.ScienceConference.article.ArticleRepository;
 import pl.mygroup.ScienceConference.user.User;
 import pl.mygroup.ScienceConference.user.UserRepository;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 
@@ -96,4 +97,23 @@ public class ReviewService {
                 .stream().map(reviewMapper).toList();
     }
 
+    @Transactional
+    public ResponseEntity<String> updateReview(Long reviewId, ReviewDTO reviewDTO){
+        Optional<Review> reviewOptional = reviewRepository.findById(reviewId);
+
+        if(reviewOptional.isEmpty()){
+            return ResponseEntity.badRequest().body("There is no such review");
+        }
+        Review review = reviewOptional.get();
+        if(reviewDTO.getReviewContent().isEmpty() ||
+                reviewDTO.getReviewContent().isBlank()){
+            return ResponseEntity.badRequest().body("Review content cannot be blank or empty");
+        }
+        if(reviewDTO.getRating() < 0.00 || reviewDTO.getRating() > 5.00){
+            return ResponseEntity.badRequest().body("Rating has to be between 0.00 and 5.00");
+        }
+        review.setReviewContent(reviewDTO.getReviewContent());
+        review.setRating(reviewDTO.getRating());
+        return ResponseEntity.ok().body("Review successfully updated");
+    }
 }

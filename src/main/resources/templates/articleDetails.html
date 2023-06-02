@@ -18,26 +18,14 @@
 <div>
   <nav class="navbar fixed-top navbar-expand-sm navbar-light bg-color">
     <div class="container">
-      <a class="navbar-brand mb-0 h1" href="/">Conference</a>
+      <a class="navbar-brand mb-0 h1" href="#">Conference</a>
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav me-auto">
           <li class="nav-item active">
             <a class="nav-link active" href="/">Strona główna</a>
           </li>
-          <li class="nav-item dropdown">
-            <a href="#" class="nav-link dropdown-toggle" id="navbarDropdown" role="button"
-               data-toggle="dropdown" aria-expanded="false">Artykuły</a>
-            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <li>
-                <a href="#" class="dropdown-item">Feature #1</a>
-              </li>
-              <li>
-                <a href="#" class="dropdown-item">Feature #2</a>
-              </li>
-              <li>
-                <a href="#" class="dropdown-item">Feature #3</a>
-              </li>
-            </ul>
+          <li class="nav-item">
+            <a class="nav-link" href="/article">Artykuły</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="/conference">Konferencje</a>
@@ -46,15 +34,15 @@
             <a class="nav-link disabled" href="#">Disabled</a>
           </li>
         </ul>
-        <div th:if="${isLoggedIn == true}"  style="margin-left:auto;">
+        <div th:if="${isLoggedIn == true}" style="margin-left:auto;">
           <ul class="navbar-nav ms-auto">
             <li class="nav-item">
-              <a class="nav-link" href="/logout">Wyolguj się</a>
+              <a class="nav-link" href="/logout">Wyloguj się</a>
             </li>
           </ul>
         </div>
         <div th:if="${isLoggedIn == false}" style="margin-left:auto;">
-          <ul class="navbar-nav ms-auto" >
+          <ul class="navbar-nav ms-auto">
             <li class="nav-item">
               <a class="nav-link" href="/login">Zaloguj się</a>
             </li>
@@ -87,7 +75,15 @@
             <p class="card-text" th:text="${'Treść recenzji: ' + review.reviewContent}"></p>
             <p class="card-text" th:text="${'Ocena: ' + review.rating}"></p>
             <p class="card-text" th:text="${'Recenzent: ' + review.reviewerEmail}"></p>
-<!--            <a th:href="@{/article/{id}(id=${article.id})}" class="btn btn-secondary">Zobacz więcej</a>-->
+            <div class="row">
+              <div class="col-12 d-flex justify-content-center align-items-center flex-column">
+                <a th:href="@{/review/edit/{id}(id=${review.id})}" class="btn btn-secondary btn-lg mb-3"><i class="bi bi-pencil-square"></i>Edytuj recenzję</a>
+                <a th:href="@{/review/delete/{id}(id=${review.id})}" class="btn btn-danger btn-lg">
+                  <i class="bi bi-trash"></i> Usuń recenzję
+                </a>
+              </div>
+            </div>
+
           </div>
         </div>
       </div>

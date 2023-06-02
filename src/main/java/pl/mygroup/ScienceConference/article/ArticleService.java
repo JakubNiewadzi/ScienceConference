@@ -74,6 +74,7 @@ public class ArticleService {
         Article article = new Article();
         article.setName(articleDTO.getName());
         article.setReference(articleDTO.getReference());
+
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
         User currentUser = userRepository.findByEmail("admin").get();
