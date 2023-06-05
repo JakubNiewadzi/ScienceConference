@@ -13,6 +13,7 @@ import pl.mygroup.ScienceConference.user.User;
 import pl.mygroup.ScienceConference.user.UserRepository;
 
 import javax.transaction.Transactional;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
@@ -130,5 +131,16 @@ public class ArticleService {
         article.setName(articleDTO.getName());
         article.setReference(articleDTO.getReference());
         return ResponseEntity.ok().body("Article successfully updated");
+    }
+
+    public Optional<ArticleDTO> getHighestRatedArticle() {
+        List<ArticleDTO> articleDTOS = articleRepository
+                .findAll()
+                .stream()
+                .map(articleMapper)
+                .toList();
+        return articleDTOS
+                .stream()
+                .max(Comparator.comparingDouble(ArticleDTO::getAverageRating));
     }
 }

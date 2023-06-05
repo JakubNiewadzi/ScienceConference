@@ -16,6 +16,9 @@ import pl.mygroup.ScienceConference.user.User;
 import pl.mygroup.ScienceConference.user.UserRepository;
 import pl.mygroup.ScienceConference.user.UserRole;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+
 @Configuration
 @Component
 public class StartUserConfig {
@@ -35,6 +38,8 @@ public class StartUserConfig {
         conference.setName("Konferencja Naukowa Politechniki Warszawskiej");
         conference.setDescription("To jest pierwsza w historii konferencja naukowa organizowana przez Politechnikę Warszawską");
         conference.setOrganizer(admin);
+        conference.setStartDate(LocalDateTime.of(2023, 6, 1, 11, 11));
+        conference.setEndDate(LocalDateTime.of(2023, 6, 5, 11, 11));
         conferenceRepository.save(conference);
         Conference con;
         for(int i =0; i<5;i++){
@@ -54,17 +59,6 @@ public class StartUserConfig {
         article.setCreator(admin);
         article.setReference("https://www.tandfonline.com/doi/full/10.1080/00103624.2011.558960");
         articleRepository.save(article);
-        /*Review review = new Review();
-        review.setReviewer(admin);
-        review.setReviewContent("dobre");
-        review.setArticle(article);
-        review.setRating(3.4);
-        reviewRepository.save(review);
-        review = new Review();
-        review.setReviewer(admin);
-        review.setReviewContent("słabe");
-        review.setArticle(article);
-        review.setRating(1.3);
-        reviewRepository.save(review);*/
+
     }
 }

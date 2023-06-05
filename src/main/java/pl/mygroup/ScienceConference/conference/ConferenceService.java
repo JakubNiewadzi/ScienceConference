@@ -12,6 +12,7 @@ import pl.mygroup.ScienceConference.user.UserService;
 
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -142,5 +143,26 @@ public class ConferenceService {
         panelRepository.removeAllPanelsFromConference(id);
         repository.deleteById(id);
         return ResponseEntity.ok(removedConference);
+    }
+
+    public List<ConferenceDTO> getOngoingConferences(){
+        return repository.findAll()
+                .stream()
+                .map(conferenceMapper)
+                .filter(c -> c.getEndDate()!=null
+                        && c.getStartDate()!=null
+                        && c.getEndDate().isAfter(LocalDateTime.now())
+                        && c.getStartDate().isBefore(LocalDateTime.now()))
+                .toList();
+    }
+
+    public List<ConferenceDTO> getNearConferences(){
+        return repository.findAll()
+                .stream()
+                .map(conferenceMapper)
+                .filter(c -> c.getEndDate()!=null
+                        && c.getStartDate()!=null
+                        && LocalDateTime.now().until(c.getEndDate(), ChronoUnit.DAYS) < 7)
+                .toList();
     }
 }

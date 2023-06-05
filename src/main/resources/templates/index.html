@@ -14,50 +14,87 @@
         .bg-color {
                 background-color: #277f97;
                 }
+
+
+
     </style>
 
 
 </head>
 <body style="height: 2000px">
-<nav class="navbar fixed-top navbar-expand-sm navbar-light bg-color">
-    <div class="container">
-        <a class="navbar-brand mb-0 h1" href="#">Conference</a>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav me-auto">
-                <li class="nav-item active">
-                    <a class="nav-link active" href="/">Strona główna</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/article">Artykuły</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/conference">Konferencje</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link disabled" href="#">Disabled</a>
-                </li>
-            </ul>
-            <div th:if="${isLoggedIn == true}" style="margin-left:auto;">
-                <ul class="navbar-nav ms-auto">
+<div>
+    <nav class="navbar fixed-top navbar-expand-sm navbar-light bg-color">
+        <div class="container">
+            <a class="navbar-brand mb-0 h1" href="#">Conference</a>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link active" href="/">Strona główna</a>
+                    </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/logout">Wyloguj się</a>
+                        <a class="nav-link" href="/article">Artykuły</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/conference">Konferencje</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link disabled" href="#">Disabled</a>
                     </li>
                 </ul>
-            </div>
-            <div th:if="${isLoggedIn == false}" style="margin-left:auto;">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="/login">Zaloguj się</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/registration">Zarejestruj się</a>
-                    </li>
-                </ul>
+                <div th:if="${isLoggedIn == true}" style="margin-left:auto;">
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="/logout">Wyloguj się</a>
+                        </li>
+                    </ul>
+                </div>
+                <div th:if="${isLoggedIn == false}" style="margin-left:auto;">
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="/login">Zaloguj się</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/registration">Zarejestruj się</a>
+                        </li>
+                    </ul>
+                </div>
             </div>
         </div>
-    </div>
-</nav>
+    </nav>
 
+    <div class="container-fluid mb-2">
+        <div class="row justify-content-center">
+            <div class="col-lg-8 col-md-10" style="margin-top: 50px;">
+                <h1 class="text-center mt-5">Trwające konferencje</h1>
+                <div class="card border-secondary rounded" style="margin-top: 80px;"
+                     th:each="ongoingConference:${ongoingConferences}">
+                    <div class="card-body text-center bg-color">
+                        <h5 class="card-title" th:text="${ongoingConference.name}"></h5>
+                        <p class="card-text" th:text="${ongoingConference.description}"></p>
+                        <p class="card-text"
+                           th:text="${ongoingConference.startDate + ' - ' + ongoingConference.endDate}"></p>
+                        <div class="row">
+                            <div class="col-12 d-flex justify-content-center align-items-center flex-column">
+                                <a th:href="@{/conference/{id}(id=${ongoingConference.id})}"
+                                   class="btn btn-secondary btn-lg mb-3">Zobacz więcej</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--            <div class="col-lg-8 col-md-10">-->
+            <!--                <div class="card border-secondary rounded" style="margin-top: 80px;" th:object="${conference}">-->
+            <!--                    <div class="card-body text-center bg-color">-->
+            <!--                        <h5 class="card-title" th:text="${conference.name}"></h5>-->
+            <!--                        <p class="card-text" th:text="${conference.description}"></p>-->
+            <!--                        <p class="card-text" th:text="${conference.startDate + ' - ' + conference.endDate}"></p>-->
+            <!--                    </div>-->
+            <!--                </div>-->
+            <!--                <h1 class="text-center mt-5">Panele</h1>-->
+            <!--            </div>-->
+        </div>
+    </div>
+</div>
 
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
         integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
